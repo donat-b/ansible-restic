@@ -1,0 +1,57 @@
+---
+# vi: set ft=ansible :
+
+- name: Set os dependent variables
+  include_vars: "{{ item }}"
+  with_first_found:
+    - files:
+      - '{{ ansible_distribution|lower }}-{{ ansible_distribution_version }}.yml'
+      - '{{ ansible_distribution|lower }}-{{ ansible_distribution_release }}.yml'
+      - '{{ ansible_distribution|lower }}-{{ ansible_distribution_major_version }}.yml'
+      - '{{ ansible_distribution|lower }}.yml'
+      - '{{ ansible_os_family|lower }}.yml'
+      paths:
+        - '../vars'
+      skip: true
+
+- name: Download client binary
+  get_url:
+    url: '{{ restic_url }}'
+    dest: '/tmp/'
+  register: get_url_restic
+
+- name: Decompress the binary
+  shell: "bzip2 -dc {{ get_url_restic.dest }} > {{ restic_install_path }}/restic"
+  args:
+    creates: '{{ restic_install_path }}/restic'
+
+- name: Ensure binary permissions are correct
+  file:
+    path: '{{ restic_install_path }}/restic'
+    mode: '0755'
+    owner: 'root'
+    group: 'root'
+
+- name: Ensure lib directory exists
+  file:
+    state: 'directory'
+    path: '/var/lib/restic'
+    mode: '0755'
+    owner: 'root'
+    group: 'root'
+
+- name: Deploy password file
+  copy:
+    content: '{{ vault_repo_password }}'
+    dest: '/var/lib/restic/repopw'
+    mode: '0600'
+    owner: 'root'
+    group: 'root'
+  no_log: true
+  ignore_errors: true
+
+- name: Deploy cron script
+  template:
+    src: 'restic.cron.j2'
+    dest: '/etc/cron.d/restic'
+    mode: '0644'

@@ -1,0 +1,19 @@
+---
+
+- hosts: all
+  gather_facts: false
+  tasks:
+    - name: 'ensure python2 is present'
+      raw: 'which python || apt-get install -y python python-simplejson'
+      changed_when: false
+
+- hosts: all
+  remote_user: root
+  vars:
+    vault_repo_password: 'foobar'
+    restic_jobs:
+      - [ '0 4  * * *', 'backup /var' ]
+      - [ '0 6  * * *', 'backup /usr' ]
+
+  roles:
+    - ansible-restic

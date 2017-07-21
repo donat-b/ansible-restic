@@ -1,0 +1,6 @@
+---
+
+restic_version: '0.7.0'
+restic_url: 'https://github.com/restic/restic/releases/download/v0.7.0/restic_{{ restic_version }}_linux_amd64.bz2'
+restic_install_path: '/usr/local/bin'
+restic_repo: '/tmp/test'
