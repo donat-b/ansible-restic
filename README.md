@@ -1,7 +1,7 @@
 Restic
 =======
 
-Deploy restic and cron jobs
+Deploys restic binary and cron jobs to trigger restic commands
 
 Requirements
 ------------
@@ -25,7 +25,7 @@ Example configuration
 ```yaml
 # format is:
 # [ 'h m  dom mon dow', 'backup /' ]
-# which is interpolated into:
+# which produces the following line:
 # m h  dom mon dow  root   restic -p "${RESTIC_PASSWORD_FILE}" backup /
 restic_jobs:
   - [ '0 4  * * *', 'backup /var' ]
