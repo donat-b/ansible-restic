@@ -6,6 +6,7 @@ PATH=/usr/local/sbin:/usr/local/bin:/sbin:/bin:/usr/sbin:/usr/bin
 RESTIC_REPOSITORY={{ restic_repo }}
 RESTIC_PASSWORD_FILE=/var/lib/restic/repopw
 
+{# -p flag can be removed if #1117 is merged #}
 {% for job in restic_jobs %}
 {{ job.0 }}  root   restic -p "${RESTIC_PASSWORD_FILE}" {{ job.1 }}
 {% endfor %}
