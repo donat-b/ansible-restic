@@ -17,3 +17,14 @@
 
   roles:
     - ansible-restic
+  
+  tasks:
+    - name: run `restic version`
+      command: restic version
+      register: cmd_restic_version
+
+    - name: ensure versions match
+      assert:
+        that:
+          - "restic_version in cmd_restic_version.stdout"
+        msg: 'restic version does not match to that in restic_version'
