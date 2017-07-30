@@ -1,6 +1,16 @@
 ---
 # vi: set ft=ansible :
 
+- name: set internal variable platform-suffix
+  set_fact:
+    _platform_suffix: 'linux_amd64'
+  when: ansible_userspace_bits == '64'
+
+- name: set internal variable platform-suffix
+  set_fact:
+    _platform_suffix: 'linux_386'
+  when: ansible_userspace_bits == '32'
+
 - name: Set os dependent variables
   include_vars: "{{ item }}"
   with_first_found:
