@@ -28,8 +28,8 @@ Example configuration
 # which produces the following line:
 # m h  dom mon dow  root   restic -p "${RESTIC_PASSWORD_FILE}" backup /
 restic_jobs:
-  - [ '0 4  * * *', 'backup /var' ]
-  - [ '0 6  * * *', 'backup /usr' ]
+  - [ '0 4  * * *', 'restic backup /var' ]
+  - [ '0 6  * * *', 'restic backup /usr' ]
 ```
 
 Usage

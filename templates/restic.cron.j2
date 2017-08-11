@@ -8,5 +8,5 @@ RESTIC_PASSWORD_FILE=/var/lib/restic/repopw
 
 {# -p flag can be removed if #1117 is merged #}
 {% for job in restic_jobs %}
-{{ job.0 }}  root   restic {{ job.1 }}
+{{ job.0 }}  root   {{ job.1 }}
 {% endfor %}
