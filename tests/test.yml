@@ -12,16 +12,27 @@
   vars:
     vault_repo_password: 'foobar'
     restic_jobs:
-      - [ '0 4  * * *', 'backup /var' ]
-      - [ '0 6  * * *', 'backup /usr' ]
+      - at: '0 6  * * *'
+        type: 'db_mysql'
+        arg: 'blog'
+      - at: '0 7  * * *'
+        type: 'db_mysql'
+        arg: 'feedback'
+    restic_jobs_raw:
+      - command: 'restic backup /var'
+        at: '0 4  * * *'
+      - command: 'restic backup /home'
+        at: '0 3  * * *'
+        user: 'restic'
 
   roles:
     - ansible-restic
-  
+
   tasks:
     - name: run `restic version`
       command: restic version
       register: cmd_restic_version
+      changed_when: false
 
     - name: ensure versions match
       assert:

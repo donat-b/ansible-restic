@@ -23,13 +23,22 @@ Example configuration
 ---------------------
 
 ```yaml
-# format is:
-# [ 'h m  dom mon dow', 'backup /' ]
-# which produces the following line:
-# m h  dom mon dow  root   restic -p "${RESTIC_PASSWORD_FILE}" backup /
+# format:
+# at: 'h m  dom mon dow'
+# type: < 'db_mysql' >
 restic_jobs:
-  - [ '0 4  * * *', 'restic backup /var' ]
-  - [ '0 6  * * *', 'restic backup /usr' ]
+  - at: '0 6  * * *'
+    type: 'db_mysql'
+    arg: 'blog'
+  - at: '0 7  * * *'
+    type: 'db_mysql'
+    arg: 'feedback'
+restic_jobs_raw:
+  - command: 'restic backup /var'
+    at: '0 4  * * *'
+  - command: 'restic backup /home'
+    at: '0 3  * * *'
+    user: 'restic'
 ```
 
 Usage

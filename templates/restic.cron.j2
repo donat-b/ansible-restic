@@ -1,12 +1,30 @@
+#jinja2: lstrip_blocks: "True"
 # restic backup jobs
-# vi: ft=crontab
+# vi: ft=jinja.crontab
 
 SHELL=/bin/sh
 PATH=/usr/local/sbin:/usr/local/bin:/sbin:/bin:/usr/sbin:/usr/bin
 RESTIC_REPOSITORY={{ restic_repo }}
 RESTIC_PASSWORD_FILE=/var/lib/restic/repopw
+{% set restic_stdin = '| restic backup --stdin --stdin-filename' %}
 
-{# -p flag can be removed if #1117 is merged #}
-{% for job in restic_jobs %}
-{{ job.0 }}  root   {{ job.1 }}
+{#
+  We're not going to use compression here as deduplication should be
+  significantly more efficient in the long run.
+  See the following issues for reference:
+  https://github.com/restic/restic/issues/790
+  https://github.com/restic/restic/issues/21
+#}
+
+{% if restic_jobs is defined %}
+  {% for job in restic_jobs %}
+    {% if job.type == 'db_mysql' %}
+{{ job.at }}  root   mysqldump --routines --add-drop-table --default-character-set=utf8 {{ job.arg }} {{ restic_stdin }} {{ job.type }}_{{ job.arg }}.sql
+    {% endif %}
+  {% endfor %}
+{% endif %}
+
+{% for job in restic_jobs_raw %}
+{{ job.at }}  {{ job.user | default('root') }}  {{ job.command }}
+
 {% endfor %}
