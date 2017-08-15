@@ -24,7 +24,8 @@ RESTIC_PASSWORD_FILE=/var/lib/restic/repopw
   {% endfor %}
 {% endif %}
 
-{% for job in restic_jobs_raw %}
+{% if restic_jobs_raw is defined %}
+  {% for job in restic_jobs_raw %}
 {{ job.at }}  {{ job.user | default('root') }}  {{ job.command }}
-
-{% endfor %}
+  {% endfor %}
+{% endif %}
