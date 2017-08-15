@@ -24,7 +24,7 @@ RESTIC_PASSWORD_FILE={{ restic_password_file }}
 {% if restic_jobs is defined %}
   {% for job in restic_jobs %}
     {% if job.type == 'db_mysql' %}
-{{ job.at }}  root   mysqldump --routines --add-drop-table --default-character-set=utf8 {{ job.arg }} {{ restic_stdin }} --stdin-filename {{ job.type }}_{{ job.arg }}.sql {{ tags(job.tags) }}
+{{ job.at }}  {{ job.user | default('root') }}   mysqldump --routines --add-drop-table --default-character-set=utf8 {{ job.arg }} {{ restic_stdin }} --stdin-filename {{ job.type }}_{{ job.arg }}.sql {{ tags(job.tags) }}
     {% endif %}
   {% endfor %}
 {% endif %}
