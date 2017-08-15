@@ -25,6 +25,8 @@ RESTIC_PASSWORD_FILE={{ restic_password_file }}
   {% for job in restic_jobs %}
     {% if job.type == 'db_mysql' %}
 {{ job.at }}  {{ job.user | default('root') }}   mysqldump --routines --add-drop-table --default-character-set=utf8 {{ job.arg }} {{ restic_stdin }} --stdin-filename {{ job.type }}_{{ job.arg }}.sql {{ tags(job.tags) }}
+    {% elif job.type == 'db_pgsql' %}
+{{ job.at }}  {{ job.user | default('root') }}   su -c '/usr/bin/pg_dump --encoding=UTF8 "{{ job.arg }}"' postgres  {{ restic_stdin }} --stdin-filename {{ job.type }}_{{ job.arg }}.sql {{ tags(job.tags) }}
     {% endif %}
   {% endfor %}
 {% endif %}

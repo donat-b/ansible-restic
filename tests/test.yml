@@ -21,12 +21,15 @@
         tags:
           - mysql
           - database
+      - at: '0 8  * * *'
+        type: 'db_pgsql'
+        arg: 'pgdatabase'
     restic_jobs_raw:
       - command: 'restic backup /var'
         at: '0 4  * * *'
       - command: 'restic backup /home'
         at: '0 3  * * *'
-        user: 'restic'
+        user: 'backup'
 
   roles:
     - ansible-restic
@@ -42,3 +45,16 @@
         that:
           - "restic_version in cmd_restic_version.stdout"
         msg: 'restic version does not match to that in restic_version'
+
+    - name: install python pip
+      apt:
+        name: 'python-pip'
+
+    - name: install chkcrontab
+      pip:
+        name: 'chkcrontab'
+
+    - name: verifying crontab file with chkcrontab
+      command: chkcrontab /etc/cron.d/restic
+      register: cmd_chkcrontab
+      changed_when: false

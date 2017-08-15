@@ -25,14 +25,16 @@ Example configuration
 ```yaml
 # format:
 # at: 'h m  dom mon dow'
-# type: < 'db_mysql' >
+# type: < 'db_mysql' | 'db_pgsql' >
 restic_jobs:
   - at: '0 6  * * *'
     type: 'db_mysql'
     arg: 'blog'
-  - at: '0 7  * * *'
-    type: 'db_mysql'
-    arg: 'feedback'
+  - at: '0 8  * * *'
+    type: 'db_pgsql'
+    arg: 'pgdatabase'
+    tags:
+      - postgres
 restic_jobs_raw:
   - command: 'restic backup /var'
     at: '0 4  * * *'
