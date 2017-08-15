@@ -6,7 +6,12 @@ SHELL=/bin/sh
 PATH=/usr/local/sbin:/usr/local/bin:/sbin:/bin:/usr/sbin:/usr/bin
 RESTIC_REPOSITORY={{ restic_repo }}
 RESTIC_PASSWORD_FILE=/var/lib/restic/repopw
-{% set restic_stdin = '| restic backup --stdin --stdin-filename' %}
+{% set restic_stdin = '| restic backup --stdin' %}
+{% macro tags(tags) -%}
+  {% if tags is defined %}
+    {% for tag in tags %}--tag {{ tag }} {% endfor %}
+  {% endif %}
+{%- endmacro %}
 
 {#
   We're not going to use compression here as deduplication should be
@@ -19,7 +24,7 @@ RESTIC_PASSWORD_FILE=/var/lib/restic/repopw
 {% if restic_jobs is defined %}
   {% for job in restic_jobs %}
     {% if job.type == 'db_mysql' %}
-{{ job.at }}  root   mysqldump --routines --add-drop-table --default-character-set=utf8 {{ job.arg }} {{ restic_stdin }} {{ job.type }}_{{ job.arg }}.sql
+{{ job.at }}  root   mysqldump --routines --add-drop-table --default-character-set=utf8 {{ job.arg }} {{ restic_stdin }} --stdin-filename {{ job.type }}_{{ job.arg }}.sql {{ tags(job.tags) }}
     {% endif %}
   {% endfor %}
 {% endif %}
