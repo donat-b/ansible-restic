@@ -12,9 +12,12 @@ Role Variables
 --------------
 
 ```yaml
-restic_version: '0.7.0'
-restic_bin_path: '/usr/local/bin'
+restic_install_path: '/usr/local/bin'
+restic_password_file: '/var/lib/restic/repopw'
 restic_repo: '/tmp/test'
+restic_url: 'https://github.com/restic/restic/releases/download/v{{ restic_version }}/restic_{{ restic_version }}_{{ _platform_suffix }}.bz2'
+restic_version: '0.7.1'
+
 # this obviously goes into the vault
 vault_repo_password: 'foobar'
 ```
@@ -63,10 +66,16 @@ RESTIC_PASSWORD_FILE=/var/lib/restic/repopw
 ```
 
 
+Dependencies
+------------
+
+None
+
+
 Usage
 -----
 
-See `tests/test.yml` for an example
+Please, see `tests/test.yml` for an example
 
 License
 -------
