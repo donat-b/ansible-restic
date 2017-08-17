@@ -15,15 +15,12 @@
       - at: '0 6  * * *'
         type: 'db_mysql'
         arg: 'blog'
-      - at: '0 7  * * *'
-        type: 'db_mysql'
-        arg: 'feedback'
-        tags:
-          - mysql
-          - database
       - at: '0 8  * * *'
         type: 'db_pgsql'
-        arg: 'pgdatabase'
+        arg: 'users'
+        tags:
+          - postgres
+          - database
     restic_jobs_raw:
       - command: 'restic backup /var'
         at: '0 4  * * *'
