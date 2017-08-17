@@ -15,9 +15,11 @@
       - at: '0 6  * * *'
         type: 'db_mysql'
         arg: 'blog'
+        hostname: 'foo.bar'
       - at: '0 8  * * *'
         type: 'db_pgsql'
         arg: 'users'
+        hostname: 'bar.foo'
         tags:
           - postgres
           - database

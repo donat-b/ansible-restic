@@ -12,6 +12,9 @@ RESTIC_PASSWORD_FILE={{ restic_password_file }}
     {% for tag in tags %}--tag {{ tag }} {% endfor %}
   {% endif %}
 {%- endmacro %}
+{% macro hostname(h) -%}
+  {% if h is defined %}--hostname {{ h }}{% endif %}
+{%- endmacro %}
 
 {#
   We're not going to use compression here as deduplication should be
@@ -24,9 +27,9 @@ RESTIC_PASSWORD_FILE={{ restic_password_file }}
 {% if restic_jobs is defined %}
   {% for job in restic_jobs %}
     {% if job.type == 'db_mysql' %}
-{{ job.at }}  {{ job.user | default('root') }}   mysqldump --routines --add-drop-table --default-character-set=utf8 {{ job.arg }} {{ restic_stdin }} --stdin-filename {{ job.type }}_{{ job.arg }}.sql {{ tags(job.tags) }}
+{{ job.at }}  {{ job.user | default('root') }}   mysqldump --routines --add-drop-table --default-character-set=utf8 {{ job.arg }} {{ restic_stdin }} --stdin-filename {{ job.type }}_{{ job.arg }}.sql {{ hostname(job.hostname) }} {{ tags(job.tags) }}
     {% elif job.type == 'db_pgsql' %}
-{{ job.at }}  {{ job.user | default('root') }}   su -c '/usr/bin/pg_dump --encoding=UTF8 "{{ job.arg }}"' postgres  {{ restic_stdin }} --stdin-filename {{ job.type }}_{{ job.arg }}.sql {{ tags(job.tags) }}
+{{ job.at }}  {{ job.user | default('root') }}   su -c '/usr/bin/pg_dump --encoding=UTF8 "{{ job.arg }}"' postgres  {{ restic_stdin }} --stdin-filename {{ job.type }}_{{ job.arg }}.sql {{ hostname(job.hostname) }} {{ tags(job.tags) }}
     {% endif %}
   {% endfor %}
 {% endif %}
