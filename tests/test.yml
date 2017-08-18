@@ -17,6 +17,7 @@
         type: 'db_mysql'
         arg: 'blog'
         hostname: 'foo.bar'
+        redirection: '2> /var/log/restic/err.log'
       - at: '0 8  * * *'
         type: 'db_pgsql'
         arg: 'users'
