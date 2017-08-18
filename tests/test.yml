@@ -11,6 +11,7 @@
   remote_user: root
   vars:
     vault_repo_password: 'foobar'
+    restic_redirection: '> /var/log/restic/out.log 2> /var/log/restic/err.log'
     restic_jobs:
       - at: '0 6  * * *'
         type: 'db_mysql'

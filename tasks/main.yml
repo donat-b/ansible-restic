@@ -42,10 +42,12 @@
     owner: 'root'
     group: 'root'
 
-- name: Ensure lib directory exists
+- name: Ensure restic directories exist
   file:
     state: 'directory'
-    path: '/var/lib/restic'
+    path: 
+      - '/var/lib/restic'
+      - '/var/log/restic'
     mode: '0755'
     owner: 'root'
     group: 'root'
