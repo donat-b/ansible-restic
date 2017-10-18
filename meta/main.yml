@@ -1,0 +1,23 @@
+---
+
+galaxy_info:
+  author: Donat Kh
+  description: Restic is a simple and effective backup solution
+  license: BSD
+  min_ansible_version: 2.0
+  platforms:
+    - name: Debian
+      versions:
+        - jessie
+        - stretch
+    - name: Ubuntu
+      versions:
+        - trusty
+        - wily
+        - xenial
+        - yakkety
+        - zesty
+  galaxy_tags:
+    - system
+    - backup
+    - restic
