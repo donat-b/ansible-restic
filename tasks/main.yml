@@ -1,46 +1,7 @@
 ---
-# vi: set ft=ansible :
 
-- name: set internal variable platform-suffix
-  set_fact:
-    _platform_suffix: 'linux_amd64'
-  when: ansible_userspace_bits == '64'
-
-- name: set internal variable platform-suffix
-  set_fact:
-    _platform_suffix: 'linux_386'
-  when: ansible_userspace_bits == '32'
-
-- name: Set os dependent variables
-  include_vars: "{{ item }}"
-  with_first_found:
-    - files:
-      - '{{ ansible_distribution|lower }}-{{ ansible_distribution_version }}.yml'
-      - '{{ ansible_distribution|lower }}-{{ ansible_distribution_release }}.yml'
-      - '{{ ansible_distribution|lower }}-{{ ansible_distribution_major_version }}.yml'
-      - '{{ ansible_distribution|lower }}.yml'
-      - '{{ ansible_os_family|lower }}.yml'
-      paths:
-        - '../vars'
-      skip: true
-
-- name: Download client binary
-  get_url:
-    url: '{{ restic_url }}'
-    dest: '/tmp/'
-  register: get_url_restic
-
-- name: Decompress the binary
-  shell: "bzip2 -dc {{ get_url_restic.dest }} > {{ restic_install_path }}/restic"
-  args:
-    creates: '{{ restic_install_path }}/restic'
-
-- name: Ensure binary permissions are correct
-  file:
-    path: '{{ restic_install_path }}/restic'
-    mode: '0755'
-    owner: 'root'
-    group: 'root'
+- name: Install restic
+  include_tasks: 'install_{{ restic_install_method }}.yml'
 
 - name: Ensure restic directories exist
   file:
