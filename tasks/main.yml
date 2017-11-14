@@ -14,18 +14,6 @@
     - '/var/lib/restic'
     - '/var/log/restic'
 
-- name: Deploy password file
-  copy:
-    content: '{{ vault_repo_password }}'
-    dest: '/var/lib/restic/repopw'
-    mode: '0600'
-    owner: 'root'
-    group: 'root'
-  no_log: true
-  ignore_errors: true
-
-- name: Deploy cron script
-  template:
-    src: 'restic.cron.j2'
-    dest: '/etc/cron.d/restic'
-    mode: '0644'
+- name: Configure restic jobs
+  include_tasks: 'configure.yml'
+  with_items: '{{ restic_repos | default([]) }}'

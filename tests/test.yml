@@ -10,8 +10,13 @@
 - hosts: all
   remote_user: root
   vars:
-    vault_repo_password: 'foobar'
     restic_redirection: '> /var/log/restic/out.log 2> /var/log/restic/err.log'
+
+    restic_repos:
+      - name: example
+        url: '/backup'
+        password: 'foo'
+
     restic_jobs:
       - at: '0 6  * * *'
         type: 'db_mysql'
@@ -25,6 +30,7 @@
         tags:
           - postgres
           - database
+
     restic_jobs_raw:
       - command: 'restic backup /var'
         at: '0 4  * * *'
@@ -56,6 +62,6 @@
         name: 'chkcrontab'
 
     - name: verifying crontab file with chkcrontab
-      command: chkcrontab /etc/cron.d/restic
+      shell: 'chkcrontab /etc/cron.d/restic-*'
       register: cmd_chkcrontab
       changed_when: false
