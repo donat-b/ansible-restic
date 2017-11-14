@@ -14,12 +14,14 @@ Role Variables
 ```yaml
 restic_install_path: '/usr/local/bin'
 restic_password_file: '/var/lib/restic/repopw'
-restic_repo: '/tmp/test'
 restic_url: 'https://github.com/restic/restic/releases/download/v{{ restic_version }}/restic_{{ restic_version }}_{{ _platform_suffix }}.bz2'
 restic_version: '0.7.1'
 
 # this obviously goes into the vault
-vault_repo_password: 'foobar'
+restic_repos:
+  name: example
+  url: '/backup'
+  password: 'foo'
 ```
 
 Example configuration
@@ -47,7 +49,7 @@ restic_jobs_raw:
     user: 'restic'
 ```
 
-Which produces `/etc/cron.d/restic` file with the following content:
+Which produces `/etc/cron.d/restic-example` file with the following content:
 
 ```
 # restic backup jobs
