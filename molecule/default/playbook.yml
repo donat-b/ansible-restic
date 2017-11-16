@@ -2,13 +2,14 @@
 
 - hosts: all
   gather_facts: false
+  become: true
   tasks:
-    - name: 'ensure python2 is present'
+    - name: Ensure python2 is present
       raw: 'which python || apt-get install -y python python-simplejson'
       changed_when: false
 
 - hosts: all
-  remote_user: root
+  become: true
   vars:
     restic_redirection: '> /var/log/restic/out.log 2> /var/log/restic/err.log'
 
