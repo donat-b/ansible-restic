@@ -1,0 +1,6 @@
+image: popstas/ubuntu-molecule:latest
+
+test:
+  stage: test
+  script:
+    - molecule lint
