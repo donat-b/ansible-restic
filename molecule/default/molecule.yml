@@ -6,6 +6,8 @@ driver:
     name: virtualbox
 lint:
   name: yamllint
+  options:
+    config-file: yamllint.yml
 verifier:
   name: testinfra
   lint:

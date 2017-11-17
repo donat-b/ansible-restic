@@ -1,0 +1,3 @@
+---
+
+line-length: {max: 60, allow-non-breakable-words: true}
