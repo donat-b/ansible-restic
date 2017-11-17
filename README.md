@@ -13,11 +13,9 @@ Role Variables
 
 ```yaml
 restic_install_path: '/usr/local/bin'
-restic_password_file: '/var/lib/restic/repopw'
-restic_url: 'https://github.com/restic/restic/releases/download/v{{ restic_version }}/restic_{{ restic_version }}_{{ _platform_suffix }}.bz2'
-restic_version: '0.7.1'
+restic_install_path: '/var/lib/restic'
+restic_version: '0.7.3'
 
-# this obviously goes into the vault
 restic_repos:
   name: example
   url: '/backup'
@@ -57,8 +55,8 @@ Which produces `/etc/cron.d/restic-example` file with the following content:
 
 SHELL=/bin/sh
 PATH=/usr/local/sbin:/usr/local/bin:/sbin:/bin:/usr/sbin:/usr/bin
-RESTIC_REPOSITORY=/tmp/test
-RESTIC_PASSWORD_FILE=/var/lib/restic/repopw
+RESTIC_REPOSITORY=/backup
+RESTIC_PASSWORD_FILE=/var/lib/restic/passwd_example
 
 0 6  * * *  root   mysqldump --routines --add-drop-table --default-character-set=utf8 blog | restic backup --stdin --stdin-filename db_mysql_blog.sql
 0 8  * * *  root   su -c '/usr/bin/pg_dump --encoding=UTF8 "users"' postgres  | restic backup --stdin --stdin-filename db_pgsql_users.sql --tag postgres --tag database
