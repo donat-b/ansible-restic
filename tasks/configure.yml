@@ -8,7 +8,7 @@
     mode: '0600'
     owner: 'root'
     group: 'root'
-    force: no
+    force: false
   no_log: true
   ignore_errors: true
 

@@ -17,7 +17,7 @@
   register: get_url_restic
 
 - name: Decompress the binary
-  shell: "bzip2 -dc {{ get_url_restic.dest }} > {{ restic_install_path }}/restic"
+  shell: bzip2 -dc {{ get_url_restic.dest }} > {{ restic_install_path }}/restic
   args:
     creates: '{{ restic_install_path }}/restic'
 
