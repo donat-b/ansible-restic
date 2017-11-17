@@ -1,3 +1,4 @@
 .molecule
 .vagrant
 *.log
+*.pyc
