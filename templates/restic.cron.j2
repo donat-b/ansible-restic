@@ -5,7 +5,7 @@
 SHELL=/bin/sh
 PATH=/usr/local/sbin:/usr/local/bin:/sbin:/bin:/usr/sbin:/usr/bin
 RESTIC_REPOSITORY={{ item.url }}
-RESTIC_PASSWORD_FILE={{ restic_password_path }}/{{ item.name }}
+RESTIC_PASSWORD_FILE={{ restic_password_path }}/passwd_{{ item.name }}
 {% set restic_stdin = '| restic backup --stdin' %}
 {% macro tags(tags) -%}
   {% if tags is defined %}{% for tag in tags %} --tag {{ tag }}{% endfor %}{% endif %}
