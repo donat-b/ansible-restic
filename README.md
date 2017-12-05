@@ -13,7 +13,7 @@ Role Variables
 
 ```yaml
 restic_install_path: '/usr/local/bin'
-restic_install_path: '/var/lib/restic'
+restic_password_path: '/var/lib/restic'
 restic_version: '0.7.3'
 
 restic_repos:
