@@ -17,9 +17,9 @@ restic_install_path: '/var/lib/restic'
 restic_version: '0.7.3'
 
 restic_repos:
-  name: example
-  url: '/backup'
-  password: 'foo'
+  - name: example
+    url: '/backup'
+    password: 'foo'
 ```
 
 Example configuration
