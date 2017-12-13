@@ -5,4 +5,4 @@ restic_install_path: '/usr/local/bin'
 restic_password_path: '/var/lib/restic'
 restic_url: 'https://github.com/restic/restic/releases/download/v{{ restic_version }}/restic_{{ restic_version }}_{{ _platform_suffix }}.bz2'
 
-restic_version: '0.7.3'
+restic_version: '0.8.0'
