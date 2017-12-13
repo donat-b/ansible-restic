@@ -57,8 +57,10 @@ Which produces `/etc/cron.d/restic-example` file with the following content:
 
 SHELL=/bin/sh
 PATH=/usr/local/sbin:/usr/local/bin:/sbin:/bin:/usr/sbin:/usr/bin
-RESTIC_REPOSITORY=/backup
-RESTIC_PASSWORD_FILE=/var/lib/restic/passwd_example
+AWS_ACCESS_KEY_ID="ACCESS_KEY"
+AWS_SECRET_ACCESS_KEY="SECRET_KEY"
+RESTIC_REPOSITORY="/backup"
+RESTIC_PASSWORD_FILE="/var/lib/restic/passwd_example"
 
 0 6  * * *  root   mysqldump --routines --add-drop-table --default-character-set=utf8 blog | restic backup --stdin --stdin-filename db_mysql_blog.sql
 0 8  * * *  root   su -c '/usr/bin/pg_dump --encoding=UTF8 "users"' postgres  | restic backup --stdin --stdin-filename db_pgsql_users.sql --tag postgres --tag database
