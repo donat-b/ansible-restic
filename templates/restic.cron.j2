@@ -4,10 +4,10 @@
 
 SHELL=/bin/sh
 PATH=/usr/local/sbin:/usr/local/bin:/sbin:/bin:/usr/sbin:/usr/bin
-AWS_ACCESS_KEY_ID= {{ item.aws_access_key_id }}
-AWS_SECRET_ACCESS_KEY={{ item.aws_secret_access_key }}
-RESTIC_REPOSITORY={{ item.url }}
-RESTIC_PASSWORD_FILE={{ restic_password_path }}/passwd_{{ item.name }}
+AWS_ACCESS_KEY_ID="{{ item.aws_access_key_id | default('') }}"
+AWS_SECRET_ACCESS_KEY="{{ item.aws_secret_access_key | default('') }}"
+RESTIC_REPOSITORY="{{ item.url }}"
+RESTIC_PASSWORD_FILE="{{ restic_password_path }}/passwd_{{ item.name }}"
 {% set restic_stdin = '| restic backup --stdin' %}
 {% macro tags(tags) -%}
   {% if tags is defined %}{% for tag in tags %} --tag {{ tag }}{% endfor %}{% endif %}
