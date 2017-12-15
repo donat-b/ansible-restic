@@ -6,7 +6,7 @@ galaxy_info:
   author: donat-b
   description: Restic is a simple and effective backup solution
   license: BSD
-  min_ansible_version: 2.2
+  min_ansible_version: 2.4
   platforms:
   - name: Debian
     versions:
