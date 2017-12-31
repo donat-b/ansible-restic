@@ -18,6 +18,9 @@ RESTIC_PASSWORD_FILE="{{ restic_password_path }}/passwd_{{ item.name }}"
 {% macro redirection(rn) -%}
   {% if rn is defined %} {{ rn }}{% elif restic_redirection is defined %} {{ restic_redirection }}{% endif %}
 {%- endmacro %}
+{% macro policies(policies) -%}
+  {% if policies is defined %}{% for policy in policies %} --{{ policy.name }} {{ policy.value }}{% endfor %}{% endif %}
+{%- endmacro %}
 
 {#
   We're not going to use compression here as deduplication should be
@@ -33,6 +36,8 @@ RESTIC_PASSWORD_FILE="{{ restic_password_path }}/passwd_{{ item.name }}"
 {{ job.at }}  {{ job.user | default('root') }}   mysqldump --routines --add-drop-table --default-character-set=utf8 {{ job.arg }} {{ restic_stdin }} --stdin-filename {{ job.type }}_{{ job.arg }}.sql{{ hostname(job.hostname) }}{{ tags(job.tags) }}{{ redirection(job.redirection) }}
     {% elif job.type == 'db_pgsql' %}
 {{ job.at }}  {{ job.user | default('root') }}   su -c '/usr/bin/pg_dump --encoding=UTF8 "{{ job.arg }}"' postgres  {{ restic_stdin }} --stdin-filename {{ job.type }}_{{ job.arg }}.sql{{ hostname(job.hostname) }}{{ tags(job.tags) }}{{ redirection(job.redirection) }}
+    {% elif job.type == 'forget' %}
+{{ job.at }} {{ job.user | default('root') }} restic forget -q {{ policies(job.policies) }} --prune
     {% endif %}
   {% endfor %}
 {% endif %}
