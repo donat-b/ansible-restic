@@ -1,0 +1,15 @@
+---
+- name: create restic group
+  become: true
+  group:
+    name: "{{ restic_group }}"
+    state: present
+
+- name: create restic user
+  become: true
+  user:
+    name: "{{ restic_user }}"
+    group: "{{ restic_group }}"
+    createhome: no
+    comment: "restic user"
+    state: present
