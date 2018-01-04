@@ -18,7 +18,8 @@ def test_files(host):
 
 def test_directories(host):
     present = [
-        "/var/lib/restic"
+        "/var/lib/restic",
+        "/var/log/restic"
     ]
     if present:
         for directory in present:

@@ -4,3 +4,4 @@ restic_version: '0.8.0'
 restic_install_path: '/usr/local/bin'
 restic_password_path: '/var/lib/restic'
 
+restic_repos: []

@@ -22,3 +22,14 @@
     mode: '0755'
     owner: 'root'
     group: 'root'
+
+- name: Ensure restic directories exist
+  file:
+    state: 'directory'
+    path: '{{ item }}'
+    mode: '0755'
+    owner: 'root'
+    group: 'root'
+  with_items:
+    - '/var/lib/restic'
+    - '/var/log/restic'
