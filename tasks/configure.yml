@@ -1,6 +1,4 @@
 ---
-# vi: set ft=ansible :
-
 - name: Deploy password file
   copy:
     dest: '/var/lib/restic/passwd_{{ item.name }}'
@@ -16,4 +14,4 @@
   template:
     src: 'restic.cron.j2'
     dest: '/etc/cron.d/restic-{{ item.name }}'
-    mode: '0644'
+    mode: '0640'

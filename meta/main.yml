@@ -1,25 +1,25 @@
 ---
-
-dependencies: []
-
 galaxy_info:
-  author: donat-b
-  description: Restic is a simple and effective backup solution
-  license: BSD
-  min_ansible_version: 2.4
+  author: Pawel Krupa (paulfantom), donat-b
+  description: Fast, secure, efficient backup program
+  license: MIT
+  min_ansible_version: 2.2
   platforms:
+  - name: Ubuntu
+    versions:
+    - xenial
+  - name: EL
+    versions:
+    - 7
   - name: Debian
     versions:
     - jessie
-    - stretch
-  - name: Ubuntu
-    versions:
-    - trusty
-    - wily
-    - xenial
-    - yakkety
-    - zesty
   galaxy_tags:
     - system
     - backup
     - restic
+    - deduplication
+    - s3
+    - backblaze
+
+dependencies: []

@@ -1,8 +1,29 @@
 ---
+restic_version: '0.8.1'
 
-restic_install_method: github
 restic_install_path: '/usr/local/bin'
 restic_password_path: '/var/lib/restic'
-restic_url: 'https://github.com/restic/restic/releases/download/v{{ restic_version }}/restic_{{ restic_version }}_{{ _platform_suffix }}.bz2'
 
-restic_version: '0.8.0'
+restic_repos: []
+# restic_repos:
+# - name: s3-example
+#   url: "s3:s3.amazonaws.com/bucket_name/restic"
+#   password: "dolphins"
+#   remote_credentials:
+#     aws_secret_key_id: "AWS_ACCESS_KEY_ID"
+#     aws_secret_access_key: "AWS_SECRET_ACCESS_KEY"
+#   jobs:
+#     - command: 'restic backup /srv'
+#       at: '0 1  * * *'
+# - name: backblaze-example
+#   url: "b2:bucketname:path/to/repo"
+#   password: "correcthorsebatterystaple"
+#   remote_credentials:
+#     b2_account_id: "B2_ACCOUNT_ID"
+#     b2_account_key: "B2_ACCOUNT_KEY"
+#   jobs:
+#     - command: 'restic backup /var'
+#       at: '0 4  * * *'
+#     - command: 'restic backup /home'
+#       at: '0 3  * * *'
+#       user: 'restic'

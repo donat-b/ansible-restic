@@ -1,0 +1,28 @@
+---
+- hosts: all
+  any_errors_fatal: yes
+  roles:
+    - ansible-restic
+  vars:
+    restic_repos:
+      - name: s3-example
+        url: "s3:s3.amazonaws.com/bucket_name/restic"
+        password: "dolphins"
+        remote_credentials:
+          aws_secret_key_id: "AWS_ACCESS_KEY_ID"
+          aws_secret_access_key: "AWS_SECRET_ACCESS_KEY"
+        jobs:
+          - command: 'restic backup /srv'
+            at: '0 1  * * *'
+      - name: backblaze-example
+        url: "b2:bucketname:path/to/repo"
+        password: "correcthorsebatterystaple"
+        remote_credentials:
+          b2_account_id: "B2_ACCOUNT_ID"
+          b2_account_key: "B2_ACCOUNT_KEY"
+        jobs:
+          - command: 'restic backup /var'
+            at: '0 4  * * *'
+          - command: 'restic backup /home'
+            at: '0 3  * * *'
+            user: 'restic'
