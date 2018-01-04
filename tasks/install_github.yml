@@ -1,18 +1,7 @@
 ---
-
-- name: Set internal variable platform-suffix
-  set_fact:
-    _platform_suffix: 'linux_amd64'
-  when: ansible_userspace_bits == '64'
-
-- name: Set internal variable platform-suffix
-  set_fact:
-    _platform_suffix: 'linux_386'
-  when: ansible_userspace_bits == '32'
-
 - name: Download client binary
   get_url:
-    url: '{{ restic_url }}'
+    url: "https://github.com/restic/restic/releases/download/v{{ restic_version }}/restic_{{ ansible_system }}_{{ go_arch_map[ansible_architecture] | default(ansible_architecture) }}.bz2"
     dest: '/tmp/'
   register: get_url_restic
 

@@ -6,7 +6,9 @@ Deploys restic binary and cron jobs to trigger restic commands
 Requirements
 ------------
 
-None
+On deployer machine:
+- Ansible >= 2.4
+- bzip2
 
 Role Variables
 --------------
@@ -70,18 +72,7 @@ RESTIC_PASSWORD_FILE="/var/lib/restic/passwd_example"
 ```
 
 
-Dependencies
-------------
-
-None
-
-
-Usage
------
-
-Please, see `tests/test.yml` for an example
-
 License
 -------
 
-BSD
+MIT
