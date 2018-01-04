@@ -5,9 +5,11 @@ testinfra_hosts = AnsibleRunner('.molecule/ansible_inventory').get_hosts('all')
 
 def test_files(host):
     present = [
-        "/etc/cron.d/restic-example",
         "/usr/local/bin/restic",
-        "/var/lib/restic/passwd_example"
+        "/etc/cron.d/restic-backblaze-example",
+        "/etc/cron.d/restic-s3-example",
+        "/var/lib/restic/passwd_backblaze-example",
+        "/var/lib/restic/passwd_s3-example"
     ]
     if present:
         for file in present:

@@ -17,7 +17,7 @@ restic_repos: []
 #       at: '0 1  * * *'
 # - name: backblaze-example
 #   url: "b2:bucketname:path/to/repo"
-#   password: "dolphins"
+#   password: "correcthorsebatterystaple"
 #   remote_credentials:
 #     b2_account_id: "B2_ACCOUNT_ID"
 #     b2_account_key: "B2_ACCOUNT_KEY"
