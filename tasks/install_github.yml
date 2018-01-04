@@ -1,18 +1,24 @@
 ---
 - name: Download client binary
+  become: no
   get_url:
     url: "https://github.com/restic/restic/releases/download/v{{ restic_version }}/restic_{{ ansible_system }}_{{ go_arch_map[ansible_architecture] | default(ansible_architecture) }}.bz2"
-    dest: '/tmp/'
-  register: get_url_restic
+    dest: '/tmp'
+  delegate_to: localhost
+  run_once: true
 
 - name: Decompress the binary
-  shell: bzip2 -dc {{ get_url_restic.dest }} > {{ restic_install_path }}/restic
+  become: no
+  shell: "bzip2 -dc /tmp/restic_{{ ansible_system }}_{{ go_arch_map[ansible_architecture] | default(ansible_architecture) }}.bz2 > /tmp/restic"
   args:
-    creates: '{{ restic_install_path }}/restic'
+    creates: "/tmp/restic"
+  delegate_to: localhost
+  run_once: true
 
-- name: Ensure permissions are correct
-  file:
-    path: '{{ restic_install_path }}/restic'
+- name: Propagate restic binary
+  copy:
+    src: /tmp/restic
+    dest: '{{ restic_install_path }}/restic'
     mode: '0755'
     owner: 'root'
     group: 'root'
