@@ -1,6 +1,4 @@
 ---
-# vi: set ft=ansible :
-
 - name: Deploy password file
   copy:
     dest: '/var/lib/restic/passwd_{{ item.name }}'

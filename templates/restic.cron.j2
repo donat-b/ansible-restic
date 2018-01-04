@@ -1,56 +1,13 @@
 #jinja2: lstrip_blocks: "True"
-# restic backup jobs
-# vi: ft=jinja.crontab
-
 # {{ ansible_managed }}
 SHELL=/bin/sh
 PATH=/usr/local/sbin:/usr/local/bin:/sbin:/bin:/usr/sbin:/usr/bin
 RESTIC_REPOSITORY="{{ item.url }}"
 RESTIC_PASSWORD_FILE="{{ restic_password_path }}/passwd_{{ item.name }}"
-{% if aws_access_key_id in item %}
-AWS_ACCESS_KEY_ID="{{ item.aws_access_key_id }}"
-AWS_SECRET_ACCESS_KEY="{{ item.aws_secret_access_key }}"
-{% elif b2_account_id in item %}
-B2_ACCOUNT_ID="{{ item.b2_account_id }}"
-B2_ACCOUNT_KEY="{{ item.b2_account_key }}"
-{% elif azure_account_name in item %}
-AZURE_ACCOUNT_NAME="{{ item.azure_account_name }}"
-AZURE_ACCOUNT_KEY="{{ item.azure_account_key }}"
-{% elif os_storage_url in item %}
-OS_STORAGE_URL="{{ item.os_storage_url }}"
-OS_AUTH_TOKEN="{{ item.os_auth_token }}"
-{% endif %}
-{% set restic_stdin = '| restic backup --stdin' %}
-{% macro tags(tags) -%}
-  {% if tags is defined %}{% for tag in tags %} --tag {{ tag }}{% endfor %}{% endif %}
-{%- endmacro %}
-{% macro hostname(h) -%}
-  {% if h is defined %} --hostname {{ h }}{% endif %}
-{%- endmacro %}
-{% macro redirection(rn) -%}
-  {% if rn is defined %} {{ rn }}{% elif restic_redirection is defined %} {{ restic_redirection }}{% endif %}
-{%- endmacro %}
+{% for k,v in item.remote_credentials.items() %}
+{{ k | upper }}={{ v }}
+{% endfor %}
 
-{#
-  We're not going to use compression here as deduplication should be
-  significantly more efficient in the long run.
-  See the following issues for reference:
-  https://github.com/restic/restic/issues/790
-  https://github.com/restic/restic/issues/21
-#}
-
-{% if restic_jobs is defined %}
-  {% for job in restic_jobs %}
-    {% if job.type == 'db_mysql' %}
-{{ job.at }}  {{ job.user | default('root') }}   mysqldump --routines --add-drop-table --default-character-set=utf8 {{ job.arg }} {{ restic_stdin }} --stdin-filename {{ job.type }}_{{ job.arg }}.sql{{ hostname(job.hostname) }}{{ tags(job.tags) }}{{ redirection(job.redirection) }}
-    {% elif job.type == 'db_pgsql' %}
-{{ job.at }}  {{ job.user | default('root') }}   su -c '/usr/bin/pg_dump --encoding=UTF8 "{{ job.arg }}"' postgres  {{ restic_stdin }} --stdin-filename {{ job.type }}_{{ job.arg }}.sql{{ hostname(job.hostname) }}{{ tags(job.tags) }}{{ redirection(job.redirection) }}
-    {% endif %}
-  {% endfor %}
-{% endif %}
-
-{% if restic_jobs_raw is defined %}
-  {% for job in restic_jobs_raw %}
-{{ job.at }}  {{ job.user | default('root') }}  {{ job.command }}{{ redirection(job.redirection) }}
-  {% endfor %}
-{% endif %}
+{% for job in item.jobs %}
+{{ job.at }} {{ job.user | default('root') }} {{ job.command }}
+{% endfor %}
