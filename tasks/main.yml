@@ -1,4 +1,9 @@
 ---
+- name: Create restic user and group
+  include_tasks: 'create_user.yml'
+  when:
+    - restic_user != 'root'
+    - restic_group != 'root'
 
 - name: Install restic
   include_tasks: 'install_{{ restic_install_method }}.yml'
@@ -8,8 +13,8 @@
     state: 'directory'
     path: '{{ item }}'
     mode: '0755'
-    owner: 'root'
-    group: 'root'
+    owner: '{{ restic_user }}'
+    group: '{{ restic_group }}'
   with_items:
     - '/var/lib/restic'
     - '/var/log/restic'

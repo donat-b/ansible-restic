@@ -6,9 +6,8 @@
     dest: '/var/lib/restic/passwd_{{ item.name }}'
     content: '{{ item.password }}'
     mode: '0600'
-    owner: 'root'
-    group: 'root'
-    force: false
+    owner: '{{ restic_user }}'
+    group: '{{ restic_group }}'
   no_log: true
   ignore_errors: true
 

@@ -25,5 +25,5 @@
   file:
     path: '{{ restic_install_path }}/restic'
     mode: '0755'
-    owner: 'root'
-    group: 'root'
+    owner: '{{ restic_user }}'
+    group: '{{ restic_group }}'
