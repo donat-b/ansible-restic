@@ -18,8 +18,6 @@
 
 - name: Decompress the binary
   shell: bzip2 -dc {{ get_url_restic.dest }} > {{ restic_install_path }}/restic
-  args:
-    creates: '{{ restic_install_path }}/restic'
 
 - name: Ensure permissions are correct
   file:
