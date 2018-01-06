@@ -1,8 +1,5 @@
 ---
 
-- name: Install restic
-  include_tasks: 'install_{{ restic_install_method }}.yml'
-
 - name: Ensure restic directories exist
   file:
     state: 'directory'
@@ -11,8 +8,11 @@
     owner: 'root'
     group: 'root'
   with_items:
-    - '/var/lib/restic'
     - '/var/log/restic'
+    - '{{ restic_download_path }}/bin'
+
+- name: Install restic
+  include_tasks: 'install_{{ restic_install_method }}.yml'
 
 - name: Configure restic jobs
   include_tasks: 'configure.yml'

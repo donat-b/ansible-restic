@@ -14,9 +14,9 @@
     restic_redirection: '> /var/log/restic/out.log 2> /var/log/restic/err.log'
 
     restic_repos:
-      - name: example
+      - name: test
         url: '/backup'
-        password: 'foo'
+        password: 'testpassword'
         aws_access_key_id: 'ACCESS_KEY'
         aws_secret_access_key: 'SECRET_KEY'
 
