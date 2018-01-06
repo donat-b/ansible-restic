@@ -30,4 +30,4 @@ def test_cronfile(host):
     assert f.group == 'root'
     assert f.mode == 0o640
     with host.sudo():
-        assert f.contains('testpassword')
+        assert f.contains('RESTIC_PASSWORD="testpassword"')
