@@ -1,12 +1,18 @@
 ---
 
+- name: 'Create restic user and group'
+  include: 'create_user.yml'
+  when:
+    - restic_user != 'root'
+    - restic_group != 'root'
+
 - name: Ensure restic directories exist
   file:
     state: 'directory'
     path: '{{ item }}'
     mode: '0755'
-    owner: 'root'
-    group: 'root'
+    owner: '{{ restic_user }}'
+    group: '{{ restic_group }}'
   with_items:
     - '/var/log/restic'
     - '{{ restic_download_path }}/bin'
