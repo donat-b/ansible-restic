@@ -11,6 +11,8 @@
 - hosts: all
   become: true
   vars:
+    restic_user: 'restic'
+    restic_group: 'restic'
     restic_redirection: '> /var/log/restic/out.log 2> /var/log/restic/err.log'
 
     restic_repos:

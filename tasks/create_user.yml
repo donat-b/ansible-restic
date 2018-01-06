@@ -1,0 +1,12 @@
+---
+
+- name: Create group
+  group:
+    name: '{{ restic_group }}'
+
+- name: Create user
+  user:
+    name: '{{ restic_user }}'
+    group: '{{ restic_group }}'
+    createhome: False
+    comment: 'restic user'
