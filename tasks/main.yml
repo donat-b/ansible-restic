@@ -16,4 +16,5 @@
 
 - name: Configure restic jobs
   include_tasks: 'configure.yml'
+  no_log: true
   with_items: '{{ restic_repos | default([]) }}'
