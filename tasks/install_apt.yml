@@ -1,6 +1,0 @@
----
-
-- name: Install restic package
-  apt:
-    name: 'restic={{ restic_version }}'
-    state: 'present'

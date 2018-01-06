@@ -12,7 +12,7 @@
     - '{{ restic_download_path }}/bin'
 
 - name: Install restic
-  include_tasks: 'install_{{ restic_install_method }}.yml'
+  include_tasks: 'install.yml'
 
 - name: Configure restic jobs
   include_tasks: 'configure.yml'
