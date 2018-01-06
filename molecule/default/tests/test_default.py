@@ -7,6 +7,13 @@ testinfra_hosts = testinfra.utils.ansible_runner.AnsibleRunner(
 
 version = '0.8.0'
 
+def test_group(host):
+    assert host.group('restic').exists
+
+def test_user(host):
+    assert host.user('restic')
+    assert host.user('restic').group == 'restic'
+
 def test_restic(host):
     f = host.file('/usr/local/bin/restic')
 
