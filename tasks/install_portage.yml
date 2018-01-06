@@ -1,6 +1,0 @@
----
-
-- name: Install restic package
-  portage:
-    name: '=app-backup/restic-{{ restic_version }}'
-    state: 'present'
