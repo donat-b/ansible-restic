@@ -8,7 +8,6 @@
     owner: 'root'
     group: 'root'
   with_items:
-    - '/var/lib/restic'
     - '/var/log/restic'
     - '{{ restic_download_path }}/bin'
 

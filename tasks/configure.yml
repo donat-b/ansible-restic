@@ -1,16 +1,4 @@
 ---
-# vi: set ft=ansible :
-
-- name: Deploy password file
-  copy:
-    dest: '/var/lib/restic/passwd_{{ item.name }}'
-    content: '{{ item.password }}'
-    mode: '0600'
-    owner: 'root'
-    group: 'root'
-    force: false
-  no_log: true
-  ignore_errors: true
 
 - name: Deploy cron script
   template:
