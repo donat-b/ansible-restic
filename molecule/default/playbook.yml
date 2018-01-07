@@ -44,17 +44,6 @@
     - ansible-restic
 
   tasks:
-    - name: run `restic version`
-      command: restic version
-      register: cmd_restic_version
-      changed_when: false
-
-    - name: ensure versions match
-      assert:
-        that:
-          - "restic_version in cmd_restic_version.stdout"
-        msg: 'restic version does not match to that in restic_version'
-
     - name: install python pip
       apt:
         name: 'python-pip'

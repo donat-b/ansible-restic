@@ -8,7 +8,7 @@ testinfra_hosts = testinfra.utils.ansible_runner.AnsibleRunner(
 version = '0.8.1'
 
 
-def test_restic(host):
+def test_restic_executable(host):
     f = host.file('/usr/local/bin/restic')
 
     assert f.exists
@@ -33,6 +33,12 @@ def test_cronfile(host):
     assert f.mode == 0o640
     with host.sudo():
         assert f.contains('RESTIC_PASSWORD="testpassword"')
+
+
+def test_restic_version(host):
+    cmd = host.run('restic version')
+    line = cmd.stdout.splitlines()[0]
+    assert line == 'restic '+version
 
 
 def test_repo(host):

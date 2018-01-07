@@ -17,7 +17,9 @@
   ignore_errors: True
   changed_when: False
   with_items: '{{ restic_repos }}'
-  when: item.init == True
+  when:
+    - item.init is defined
+    - item.init == True
 
 - name: Initialize repository
   command: '{{ restic_install_path }}/restic init'
@@ -26,5 +28,6 @@
     RESTIC_PASSWORD: '{{ item.password }}'
   with_items: '{{ restic_repos }}'
   when:
+    - item.init is defined
     - item.init == True
     - _repo_check | failed
