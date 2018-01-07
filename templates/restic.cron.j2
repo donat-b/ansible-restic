@@ -6,7 +6,7 @@
 SHELL=/bin/sh
 PATH=/usr/local/sbin:/usr/local/bin:/sbin:/bin:/usr/sbin:/usr/bin
 RESTIC_REPOSITORY="{{ item.url }}"
-RESTIC_PASSWORD_FILE="{{ restic_password_path }}/passwd_{{ item.name }}"
+RESTIC_PASSWORD="{{ item.password }}"
 {% if aws_access_key_id in item %}
 AWS_ACCESS_KEY_ID="{{ item.aws_access_key_id }}"
 AWS_SECRET_ACCESS_KEY="{{ item.aws_secret_access_key }}"

@@ -1,4 +1,5 @@
-.molecule
-.vagrant
 *.log
 *.pyc
+.molecule
+.ropeproject
+.vagrant

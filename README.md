@@ -14,7 +14,7 @@ Role Variables
 ```yaml
 restic_install_path: '/usr/local/bin'
 restic_password_path: '/var/lib/restic'
-restic_version: '0.8.0'
+restic_version: '0.8.1'
 
 restic_repos:
   - name: example
@@ -60,7 +60,7 @@ PATH=/usr/local/sbin:/usr/local/bin:/sbin:/bin:/usr/sbin:/usr/bin
 AWS_ACCESS_KEY_ID="ACCESS_KEY"
 AWS_SECRET_ACCESS_KEY="SECRET_KEY"
 RESTIC_REPOSITORY="/backup"
-RESTIC_PASSWORD_FILE="/var/lib/restic/passwd_example"
+RESTIC_PASSWORD="foo"
 
 0 6  * * *  root   mysqldump --routines --add-drop-table --default-character-set=utf8 blog | restic backup --stdin --stdin-filename db_mysql_blog.sql
 0 8  * * *  root   su -c '/usr/bin/pg_dump --encoding=UTF8 "users"' postgres  | restic backup --stdin --stdin-filename db_pgsql_users.sql --tag postgres --tag database

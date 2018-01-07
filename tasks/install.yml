@@ -1,0 +1,44 @@
+---
+
+- name: Set internal variable platform-suffix
+  set_fact:
+    _platform_suffix: 'linux_amd64'
+  when: ansible_userspace_bits == '64'
+
+- name: Set internal variable platform-suffix
+  set_fact:
+    _platform_suffix: 'linux_386'
+  when: ansible_userspace_bits == '32'
+
+- name: Check if binary is present
+  stat:
+    path: '{{ _restic_binpath_tpl }}'
+  register: restic_executable
+
+- name: Download client binary
+  get_url:
+    url: '{{ restic_url }}'
+    dest: '{{ restic_download_path }}/restic.bz2'
+    force: True
+  register: get_url_restic
+  when: restic_executable.stat.exists == False
+
+- name: Decompress the binary
+  shell: bzip2 -dc {{ get_url_restic.dest }} > {{ _restic_binpath_tpl }}
+  args:
+    creates: '{{ _restic_binpath_tpl }}'
+  when: restic_executable.stat.exists == False
+
+- name: Ensure permissions are correct
+  file:
+    path: '{{ _restic_binpath_tpl }}'
+    mode: '0755'
+    owner: 'root'
+    group: 'root'
+
+- name: Create symbolic link to the correct version
+  file:
+    src: '{{ _restic_binpath_tpl }}'
+    path: '{{ restic_install_path }}/restic'
+    state: link
+    force: True
