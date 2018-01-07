@@ -1,5 +1,4 @@
 ---
-
 - name: Ensure restic directories exist
   file:
     state: 'directory'
@@ -11,8 +10,14 @@
     - '/var/log/restic'
     - '{{ restic_download_path }}/bin'
 
+- name: Check if binary is present
+  stat:
+    path: '{{ restic_download_path }}/bin/restic-{{ restic_version }}'
+  register: restic_executable
+
 - name: Install restic
   include: 'install.yml'
+  when: not restic_executable.stat.exists
 
 - name: Configure restic jobs
   include: 'configure.yml'
