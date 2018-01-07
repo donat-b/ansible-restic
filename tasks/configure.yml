@@ -5,3 +5,5 @@
     src: 'restic.cron.j2'
     dest: '/etc/cron.d/restic-{{ item.name }}'
     mode: '0640'
+  no_log: true
+  with_items: '{{ restic_repos }}'
