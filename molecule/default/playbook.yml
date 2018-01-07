@@ -17,8 +17,7 @@
       - name: test
         url: '/backup'
         password: 'testpassword'
-        aws_access_key_id: 'ACCESS_KEY'
-        aws_secret_access_key: 'SECRET_KEY'
+        init: True
 
     restic_jobs:
       - at: '0 6  * * *'

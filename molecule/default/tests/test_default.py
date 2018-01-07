@@ -5,7 +5,8 @@ import testinfra.utils.ansible_runner
 testinfra_hosts = testinfra.utils.ansible_runner.AnsibleRunner(
     os.environ['MOLECULE_INVENTORY_FILE']).get_hosts('all')
 
-version = '0.8.0'
+version = '0.8.1'
+
 
 def test_restic(host):
     f = host.file('/usr/local/bin/restic')
@@ -22,6 +23,7 @@ def test_restic(host):
     assert fl.group == 'root'
     assert fl.mode == 0o755
 
+
 def test_cronfile(host):
     f = host.file('/etc/cron.d/restic-test')
 
@@ -31,3 +33,11 @@ def test_cronfile(host):
     assert f.mode == 0o640
     with host.sudo():
         assert f.contains('RESTIC_PASSWORD="testpassword"')
+
+
+def test_repo(host):
+    with host.sudo():
+        cmd = host.run(
+            'RESTIC_PASSWORD="testpassword" restic -r /backup snapshots'
+        )
+    assert cmd.rc == 0

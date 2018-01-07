@@ -7,3 +7,24 @@
     mode: '0640'
   no_log: true
   with_items: '{{ restic_repos }}'
+
+- name: Check if the repo already exists
+  command: '{{ restic_install_path }}/restic snapshots'
+  environment:
+    RESTIC_REPOSITORY: '{{ item.url }}'
+    RESTIC_PASSWORD: '{{ item.password }}'
+  register: _repo_check
+  ignore_errors: True
+  changed_when: False
+  with_items: '{{ restic_repos }}'
+  when: item.init == True
+
+- name: Initialize repository
+  command: '{{ restic_install_path }}/restic init'
+  environment:
+    RESTIC_REPOSITORY: '{{ item.url }}'
+    RESTIC_PASSWORD: '{{ item.password }}'
+  with_items: '{{ restic_repos }}'
+  when:
+    - item.init == True
+    - _repo_check | failed
