@@ -7,3 +7,5 @@ restic_url: 'https://github.com/restic/restic/releases/download/v{{ restic_versi
 restic_version: '0.8.0'
 
 _restic_binpath_tpl: '{{ restic_download_path }}/bin/restic-{{ restic_version }}'
+
+restic_repos: []
