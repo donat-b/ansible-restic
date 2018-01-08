@@ -12,10 +12,14 @@ Role Variables
 --------------
 
 ```yaml
-restic_install_path: '/usr/local/bin'
-restic_password_path: '/var/lib/restic'
 restic_version: '0.8.1'
+restic_url: ''
 
+restic_download_path: '/opt/restic'
+restic_install_path: '/usr/local/bin'
+
+restic_jobs: []
+restic_jobs_raw: []
 restic_repos:
   - name: example
     url: '/backup'
