@@ -5,5 +5,21 @@
     src: 'restic.cron.j2'
     dest: '/etc/cron.d/restic-{{ item.name }}'
     mode: '0640'
-  no_log: true
+  no_log: True
   with_items: '{{ restic_repos }}'
+
+- name: Initialize repository
+  command: '{{ restic_install_path }}/restic init'
+  environment:
+    RESTIC_REPOSITORY: '{{ item.url }}'
+    RESTIC_PASSWORD: '{{ item.password }}'
+  no_log: True
+  register: restic_init
+  changed_when: "'created restic backend' in restic_init.stdout"
+  failed_when:
+    - restic_init.rc != 0
+    - not 'config file already exists' in restic_init.stderr
+  with_items: '{{ restic_repos }}'
+  when:
+    - item.init is defined
+    - item.init == True
