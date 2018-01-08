@@ -5,7 +5,7 @@ import testinfra.utils.ansible_runner
 testinfra_hosts = testinfra.utils.ansible_runner.AnsibleRunner(
     os.environ['MOLECULE_INVENTORY_FILE']).get_hosts('all')
 
-version = '0.8.0'
+version = '0.8.1'
 
 def test_restic(host):
     f = host.file('/usr/local/bin/restic')
