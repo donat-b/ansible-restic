@@ -47,3 +47,10 @@ def test_repo(host):
             'RESTIC_PASSWORD="testpassword" restic -r /backup snapshots'
         )
     assert cmd.rc == 0
+
+def test_block_no_whitespace(host):
+    f = host.file('/etc/cron.d/restic-test')
+
+    assert f.exists
+    with host.sudo():
+        assert f.contains('RESTIC_PASSWORD="supersecret"')
