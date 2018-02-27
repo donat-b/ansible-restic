@@ -12,7 +12,7 @@ Role Variables
 --------------
 
 ```yaml
-restic_version: '0.8.1'
+restic_version: '0.8.3'
 restic_url: ''
 
 restic_download_path: '/opt/restic'
