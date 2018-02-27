@@ -18,7 +18,11 @@
         url: '/backup'
         password: 'testpassword'
         init: True
-
+      - name: blocktest
+        url: '/backup-block'
+        password: |
+          supersecret
+        init: True
     restic_jobs:
       - at: '0 6  * * *'
         type: 'db_mysql'
