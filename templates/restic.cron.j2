@@ -5,20 +5,20 @@
 # {{ ansible_managed }}
 SHELL=/bin/sh
 PATH=/usr/local/sbin:/usr/local/bin:/sbin:/bin:/usr/sbin:/usr/bin
-RESTIC_REPOSITORY="{{ item.url | trim }}"
-RESTIC_PASSWORD="{{ item.password | trim }}"
+RESTIC_REPOSITORY={{ item.url | trim | quote }}
+RESTIC_PASSWORD={{ item.password | trim | quote }}
 {% if item.aws_access_key_id is defined %}
-AWS_ACCESS_KEY_ID="{{ item.aws_access_key_id | trim }}"
-AWS_SECRET_ACCESS_KEY="{{ item.aws_secret_access_key | trim }}"
+AWS_ACCESS_KEY_ID={{ item.aws_access_key_id | trim | quote }}
+AWS_SECRET_ACCESS_KEY={{ item.aws_secret_access_key | trim | quote }}
 {% elif item.b2_account_id is defined %}
-B2_ACCOUNT_ID="{{ item.b2_account_id | trim }}"
-B2_ACCOUNT_KEY="{{ item.b2_account_key | trim }}"
+B2_ACCOUNT_ID={{ item.b2_account_id | trim | quote }}
+B2_ACCOUNT_KEY={{ item.b2_account_key | trim | quote }}
 {% elif item.azure_account_name is defined %}
-AZURE_ACCOUNT_NAME="{{ item.azure_account_name | trim }}"
-AZURE_ACCOUNT_KEY="{{ item.azure_account_key | trim }}"
+AZURE_ACCOUNT_NAME={{ item.azure_account_name | trim | quote }}
+AZURE_ACCOUNT_KEY={{ item.azure_account_key | trim | quote }}
 {% elif item.os_storage_url is defined %}
-OS_STORAGE_URL="{{ item.os_storage_url | trim }}"
-OS_AUTH_TOKEN="{{ item.os_auth_token | trim }}"
+OS_STORAGE_URL={{ item.os_storage_url | trim | quote }}
+OS_AUTH_TOKEN={{ item.os_auth_token | trim | quote }}
 {% endif %}
 {% set restic_stdin = '| restic backup --stdin' %}
 {% macro tags(tags) -%}
