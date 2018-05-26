@@ -16,8 +16,8 @@
   register: restic_executable
 
 - name: Install restic
-  include: 'install.yml'
+  include_tasks: 'install.yml'
   when: not restic_executable.stat.exists
 
 - name: Configure restic jobs
-  include: 'configure.yml'
+  include_tasks: 'configure.yml'
