@@ -50,6 +50,11 @@ restic_jobs_raw:
   - command: 'restic backup /home'
     at: '0 3  * * *'
     user: 'restic'
+  # always keep last backup, keep daily backups for a week, weekly backups
+  # for a month, as well as six monthly backups.
+  - command: 'restic forget --keep-last 1 --keep-daily 7 --keep-weekly 4 --keep-monthly 6 --prune'
+    at: '30 22 * * 5' # every friday 22:30
+    user: 'restic'
 ```
 
 Which produces `/etc/cron.d/restic-example` file with the following content:
