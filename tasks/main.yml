@@ -6,9 +6,7 @@
     mode: '0755'
     owner: '{{ restic_dir_owner }}'
     group: '{{ restic_dir_group }}'
-  with_items:
-    - '/var/log/restic'
-    - '{{ restic_download_path }}/bin'
+  with_items: '{{ restic_create_paths }}'
 
 - name: Check if binary is present
   stat:
