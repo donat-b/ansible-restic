@@ -4,8 +4,8 @@
     state: 'directory'
     path: '{{ item }}'
     mode: '0755'
-    owner: 'root'
-    group: 'root'
+    owner: '{{ restic_dir_owner }}'
+    group: '{{ restic_dir_group }}'
   with_items:
     - '/var/log/restic'
     - '{{ restic_download_path }}/bin'

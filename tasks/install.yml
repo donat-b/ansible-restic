@@ -20,8 +20,8 @@
   file:
     path: '{{ restic_download_path }}/bin/restic-{{ restic_version }}'
     mode: '0755'
-    owner: 'root'
-    group: 'root'
+    owner: '{{ restic_dir_owner }}'
+    group: '{{ restic_dir_group }}'
 
 - name: Create symbolic link to the correct version
   file:

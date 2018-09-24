@@ -10,3 +10,6 @@ restic_repos: []
 
 restic_jobs: []
 restic_jobs_raw: []
+
+restic_dir_owner: 'root'
+restic_dir_group: 'root'
