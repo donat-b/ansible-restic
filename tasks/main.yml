@@ -4,20 +4,23 @@
     state: 'directory'
     path: '{{ item }}'
     mode: '0755'
-    owner: 'root'
-    group: 'root'
-  with_items:
-    - '/var/log/restic'
-    - '{{ restic_download_path }}/bin'
+    owner: '{{ restic_dir_owner }}'
+    group: '{{ restic_dir_group }}'
+  with_items: '{{ restic_create_paths }}'
 
-- name: Check if binary is present
+- name: Check if downloaded binary is present
   stat:
     path: '{{ restic_download_path }}/bin/restic-{{ restic_version }}'
   register: restic_executable
 
+- name: Check if installed binary is present
+  stat:
+    path: '{{ restic_install_path }}/restic'
+  register: restic_installed
+
 - name: Install restic
   include: 'install.yml'
-  when: not restic_executable.stat.exists
+  when: not restic_executable.stat.exists or not restic_installed.stat.exists
 
 - name: Configure restic jobs
   include: 'configure.yml'
