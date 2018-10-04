@@ -74,15 +74,14 @@ RESTIC_PASSWORD="foo"
 0 8  * * *  root   su -c '/usr/bin/pg_dump --encoding=UTF8 "users"' postgres  | restic backup --stdin --stdin-filename db_pgsql_users.sql --tag postgres --tag database
 
 0 4  * * *  root  restic backup /var
-0 3  * * *  backup  restic backup /home
+0 3  * * *  restic  restic backup /home
+30 22 * * 5 restic  restic forget --keep-last 1 --keep-daily 7 --keep-weekly 4 --keep-monthly 6 --prune
 ```
-
 
 Dependencies
 ------------
 
 None
-
 
 Usage
 -----
